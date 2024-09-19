@@ -1,89 +1,85 @@
 package org.yourcompany.yourproject;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+
+import org.yourcompany.yourproject.GetData.DataForAVLTree;
+
 public class AVLTree {
-
-    public class Node {
-        int key;
-        int height;
-        Node left;
-        Node right;
-
-        Node(int key) {
-            this.key = key;
-        }
-    }
 
     private Node root;
 
-    public Node find(int key) {
+    HandleDuplicats handleDuplicats = new HandleDuplicats();
+
+    public static class DuplicateFileInfos {
+
+        String originalFileName;
+        String originalPath;
+        Date originalCreationDate;
+        HashSet<String> DuplicateFileDirs = new HashSet<>();
+    }
+
+    public HashMap<String, DuplicateFileInfos> duplicateFilesMap = new HashMap<>();
+
+    // --- METHODS FOR PUBLIC ACCESS --- \\
+    public void printInOrder(Node node) {
+        if (node != null) {
+            printInOrder(node.left);
+            System.out.println("Key: " + node.key + " File: " + node.fileName + " Path: " + node.path + " Creation Date: " + node.creationDate);
+            printInOrder(node.right);
+        }
+    }
+
+    public Node find(String key) {
         Node current = root;
         while (current != null) {
-            if (current.key == key) {
-               break;
+            if (current.key.equals(key)) {
+                System.out.println("Data found: " + current.key);
+                return current;
             }
-            current = current.key < key ? current.right : current.left;
+            current = current.key.compareTo(key) < 0 ? current.right : current.left;
         }
-        return current;
+        System.out.println("Data not found: " + key);
+        return null;
     }
 
-    public void insert(int key) {
-        root = insert(root, key);
+    public void insert(DataForAVLTree data) {
+        root = insert(root, data);
     }
 
-    public void delete(int key) {
-        root = delete(root, key);
-    }
-
-    public Node getRoot() {
-        return root;
+    public void deleteDuplicateFile(String key, String dir) {
+        //duplicateFileMaphandleDuplicats.deleteDuplicateFile(key, dir, duplicateFilesMap);
     }
 
     public int height() {
         return root == null ? -1 : root.height;
     }
 
-    private Node insert(Node root, int key) {
+    public Node getRoot() {
+        return root;
+    }
+
+    public int getBalance(Node n) {
+        return (n == null) ? 0 : height(n.right) - height(n.left);
+    }
+
+    public HashMap<String, DuplicateFileInfos> getDuplicateFilesMap() {
+        return duplicateFilesMap;
+    }
+
+    // --- PRIVATE METHODS WITH THE LOGIC OF THE AVL TREE --- \\
+    private Node insert(Node root, DataForAVLTree newDataToInsert) {
         if (root == null) {
-            return new Node(key);
-        } else if (root.key > key) {
-            root.left = insert(root.left, key);
-        } else if (root.key < key) {
-            root.right = insert(root.right, key);
-        } else {
-            throw new RuntimeException("duplicate Key!");
+            return new Node(newDataToInsert.hashedContent, newDataToInsert.fileName, newDataToInsert.path, newDataToInsert.creationDate);
+        } else if (root.key.compareTo(newDataToInsert.hashedContent) < 0) {
+            root.left = insert(root.left, newDataToInsert);
+        } else if (root.key.compareTo(newDataToInsert.hashedContent) > 0) {
+            root.right = insert(root.right, newDataToInsert);
+        } else if (root.key.compareTo(newDataToInsert.hashedContent) == 0) {
+            duplicateFilesMap = handleDuplicats.setDuplicateFileInMap(root, newDataToInsert, duplicateFilesMap);
         }
         return rebalance(root);
-    }
-
-    private Node delete(Node node, int key) {
-        if (node == null) {
-            return node;
-        } else if (node.key > key) {
-            node.left = delete(node.left, key);
-        } else if (node.key < key) {
-            node.right = delete(node.right, key);
-        } else {
-            if (node.left == null || node.right == null) {
-                node = (node.left == null) ? node.right : node.left;
-            } else {
-                Node mostLeftChild = mostLeftChild(node.right);
-                node.key = mostLeftChild.key;
-                node.right = delete(node.right, node.key);
-            }
-        }
-        if (node != null) {
-            node = rebalance(node);
-        }
-        return node;
-    }
-
-    private Node mostLeftChild(Node node) {
-        Node current = node;
-        /* loop down to find the leftmost leaf */
-        while (current.left != null) {
-            current = current.left;
-        }
-        return current;
     }
 
     private Node rebalance(Node z) {
@@ -133,9 +129,5 @@ public class AVLTree {
 
     private int height(Node n) {
         return n == null ? -1 : n.height;
-    }
-
-    public int getBalance(Node n) {
-        return (n == null) ? 0 : height(n.right) - height(n.left);
     }
 }

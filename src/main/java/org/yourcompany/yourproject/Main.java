@@ -3,8 +3,6 @@
  */
 package org.yourcompany.yourproject;
 
-import org.yourcompany.yourproject.AVLTree.Node;
-
 /**
  *
  * @author lukasdoll
@@ -12,16 +10,26 @@ import org.yourcompany.yourproject.AVLTree.Node;
 public class Main {
 
     public static void main(String[] args) {
-        AVLTree avlTree = new AVLTree();
-        avlTree.delete(10);
-        avlTree.delete(20);
-        avlTree.delete(30);
 
-        Node node = avlTree.find(20);
-        if (node != null) {
-            System.out.println("Data found in the tree");
-        } else {
-            System.out.println("Data not found in the tree");
+        UserInterface ui = new UserInterface();
+        // Show a little welcoming message to the user in the console
+        ui.start();
+
+        // Get the directory from the user in the console
+        String userDir = ui.getUserDir();
+
+        // Ask the user, if he wants to scann subdirectories as well
+        Boolean scanSubDir = ui.yesOrNoQuestion("Should subdirectorys inside of the directory you provided also be scaned?");
+
+        GetData getData = new GetData();
+        AVLTree avlTree = new AVLTree();
+
+        // Insert all data from the files in the given directory into the AVLTree
+        for (GetData.DataForAVLTree data : getData.getDataFromFiles(userDir, scanSubDir)) {
+            avlTree.insert(data);
         }
+
+        ui.printDuplicatFiles(avlTree.getDuplicateFilesMap());
+        ui.yesOrNoQuestion("Do you want to delete all duplicate files?");
     }
 }
