@@ -30,6 +30,7 @@ public class Main {
         }
 
         ui.printDuplicatFiles(avlTree.getDuplicateFilesMap());
-        ui.yesOrNoQuestion("Do you want to delete all duplicate files?");
+        HandleDuplicats handleDuplicats = new HandleDuplicats();
+        handleDuplicats.deleteAllDuplicateFiles(avlTree.getDuplicateFilesMap());
     }
 }

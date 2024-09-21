@@ -46,4 +46,20 @@ public HashMap<String, DuplicateFileInfos> setDuplicateFileInMap(Node root, Data
         }
         return dir;
     }
+
+    public void deleteAllDuplicateFiles(HashMap<String, DuplicateFileInfos> duplicateFilesMap) {
+        UserInterface ui = new UserInterface();
+        Boolean deleteAllDuplicateFiles = ui.yesOrNoQuestion("Do you want to delete all duplicate files?");
+
+        if (!deleteAllDuplicateFiles) {
+            return;
+        }
+        
+        for (String key : duplicateFilesMap.keySet()) {
+            DuplicateFileInfos duplicateFileInfos = duplicateFilesMap.get(key);
+            for (String dir : duplicateFileInfos.DuplicateFileDirs) {
+                deleteDuplicateFile(key, dir);
+            }
+        }
+    }
 }

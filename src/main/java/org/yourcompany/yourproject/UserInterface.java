@@ -13,7 +13,7 @@ public class UserInterface {
     private Scanner scanner = new Scanner(System.in);
 
     public void start() {
-        System.out.println("This is a program to scan a directory of your choice for duplicate files");
+        System.out.println("\n\nThis is a program to scan a directory of your choice for duplicate files");
     }
 
     public String getUserDir() {
@@ -49,7 +49,7 @@ public class UserInterface {
             System.out.println("Duplicate files found:");
             for (String fileName : duplicateFilesMap.keySet()) {
                 AVLTree.DuplicateFileInfos duplicateFileInfos = duplicateFilesMap.get(fileName);
-                System.out.println("File: " + fileName);
+                System.out.println("\noriginal File: " + fileName);
                 for (String duplicateFileDir : duplicateFileInfos.DuplicateFileDirs) {
                     System.out.println("  " + duplicateFileDir);
                 }
