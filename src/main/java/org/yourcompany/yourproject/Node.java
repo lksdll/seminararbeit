@@ -3,10 +3,10 @@ package org.yourcompany.yourproject;
 import java.util.Date;
 
 public class Node {
-    String key;
-    int height;
-    Node left;
-    Node right;
+    public String key;
+    public int height;
+    public Node left;
+    public Node right;
 
     String fileName;
     String path;

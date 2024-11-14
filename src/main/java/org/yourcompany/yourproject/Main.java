@@ -11,26 +11,27 @@ public class Main {
 
     public static void main(String[] args) {
 
-        UserInterface ui = new UserInterface();
         // Show a little welcoming message to the user in the console
-        ui.start();
+        UserInterface.start();
 
         // Get the directory from the user in the console
-        String userDir = ui.getUserDir();
+        String userDir = UserInterface.getUserDir();
 
         // Ask the user, if he wants to scann subdirectories as well
-        Boolean scanSubDir = ui.yesOrNoQuestion("Should subdirectorys inside of the directory you provided also be scaned?");
+        Boolean scanSubDir = UserInterface.yesOrNoQuestion("Should subdirectorys inside of the directory you provided also be scaned?");
 
         GetData getData = new GetData();
         AVLTree avlTree = new AVLTree();
 
         // Insert all data from the files in the given directory into the AVLTree
-        for (GetData.DataForAVLTree data : getData.getDataFromFiles(userDir, scanSubDir)) {
+        for (DataAVLTreeInsert data : getData.getDataFromFiles(userDir, scanSubDir)) {
             avlTree.insert(data);
         }
 
-        ui.printDuplicatFiles(avlTree.getDuplicateFilesMap());
+        UserInterface.printDuplicatFiles(avlTree.getDuplicateFilesMap());
         HandleDuplicats handleDuplicats = new HandleDuplicats();
-        handleDuplicats.deleteAllDuplicateFiles(avlTree.getDuplicateFilesMap());
+        HandleDuplicats.deleteAllDuplicateFiles(avlTree.getDuplicateFilesMap());
+
+        System.out.println("Height of the AVLTree: " + avlTree.height());
     }
 }

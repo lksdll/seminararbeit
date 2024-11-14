@@ -7,11 +7,10 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 
 import org.yourcompany.yourproject.AVLTree.DuplicateFileInfos;
-import org.yourcompany.yourproject.GetData.DataForAVLTree;
 
 public class HandleDuplicats {
 
-public HashMap<String, DuplicateFileInfos> setDuplicateFileInMap(Node root, DataForAVLTree newDataToInsert, HashMap<String, DuplicateFileInfos> duplicateFilesMap) {
+public static HashMap<String, DuplicateFileInfos> setDuplicateFileInMap(Node root, DataAVLTreeInsert newDataToInsert, HashMap<String, DuplicateFileInfos> duplicateFilesMap) {
         if (root != null && newDataToInsert != null) {
             if (duplicateFilesMap.containsKey(newDataToInsert.hashedContent)) {
                 DuplicateFileInfos duplicateFileInfos = duplicateFilesMap.get(newDataToInsert.hashedContent);
@@ -36,7 +35,7 @@ public HashMap<String, DuplicateFileInfos> setDuplicateFileInMap(Node root, Data
         return duplicateFilesMap;
     }
 
-    public String deleteDuplicateFile(String key, String dir) {
+    public static String deleteDuplicateFile(String key, String dir) {
         try {
             Path pathToFile = Paths.get(dir);
             Files.deleteIfExists(pathToFile);
@@ -47,7 +46,7 @@ public HashMap<String, DuplicateFileInfos> setDuplicateFileInMap(Node root, Data
         return dir;
     }
 
-    public void deleteAllDuplicateFiles(HashMap<String, DuplicateFileInfos> duplicateFilesMap) {
+    public static void deleteAllDuplicateFiles(HashMap<String, DuplicateFileInfos> duplicateFilesMap) {
         UserInterface ui = new UserInterface();
         Boolean deleteAllDuplicateFiles = ui.yesOrNoQuestion("Do you want to delete all duplicate files?");
 

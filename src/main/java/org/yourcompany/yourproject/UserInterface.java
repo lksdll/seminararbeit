@@ -10,17 +10,20 @@ import org.yourcompany.yourproject.AVLTree.DuplicateFileInfos;
 
 public class UserInterface {
 
-    private Scanner scanner = new Scanner(System.in);
-
-    public void start() {
-        System.out.println("\n\nThis is a program to scan a directory of your choice for duplicate files");
-    }
-
-    public String getUserDir() {
-        System.out.println("\n\nPlease enter the directory you would like to scan: ");
-        String dir = scanner.nextLine();
+    private static Scanner scanner = new Scanner(System.in);
+    
+        //little starting message
+        public static void start() {
+            System.out.println("\n\nThis is a program to scan a directory of your choice for duplicate files");
+        }
+    
+        //method to get the directory from the user
+        public static String getUserDir() {
+            System.out.println("\n\nPlease enter the directory you would like to scan: ");
+            String dir = scanner.nextLine();
 
         Path path = Paths.get(dir);
+        // check if the provided directory exists
         if (Files.exists(path) && Files.isDirectory(path)) {
             return dir;
         } else {
@@ -29,7 +32,7 @@ public class UserInterface {
         }
     }
 
-    public Boolean yesOrNoQuestion(String question) {
+    public static Boolean yesOrNoQuestion(String question) {
         System.out.println(question + " (y/n)");
         String val = scanner.next();
         if (val.equalsIgnoreCase("y") || val.equalsIgnoreCase("yes")) {
@@ -42,14 +45,16 @@ public class UserInterface {
         }
     }
 
-    public void printDuplicatFiles(HashMap<String, DuplicateFileInfos> duplicateFilesMap) {
+    // show the user the duplicate files found together with the original(oldest) file of them
+    public static void printDuplicatFiles(HashMap<String, DuplicateFileInfos> duplicateFilesMap) {
         if (duplicateFilesMap.isEmpty()) {
             System.out.println("No duplicate files found");
         } else {
             System.out.println("Duplicate files found:");
-            for (String fileName : duplicateFilesMap.keySet()) {
-                AVLTree.DuplicateFileInfos duplicateFileInfos = duplicateFilesMap.get(fileName);
-                System.out.println("\noriginal File: " + fileName);
+            for (String fileHash : duplicateFilesMap.keySet()) {
+                AVLTree.DuplicateFileInfos duplicateFileInfos = duplicateFilesMap.get(fileHash);
+                System.out.println("\n\noriginal File: " + duplicateFileInfos.originalFileName + "\nPath: " + duplicateFileInfos.originalPath);
+                System.out.println("\nDuplicates:");
                 for (String duplicateFileDir : duplicateFileInfos.DuplicateFileDirs) {
                     System.out.println("  " + duplicateFileDir);
                 }

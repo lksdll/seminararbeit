@@ -4,14 +4,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.yourcompany.yourproject.GetData.DataForAVLTree;
-
 public class AVLTree {
 
+    // root node of the avl tree
     private Node root;
 
+    // class with methods to deal with duplicate files
     HandleDuplicats handleDuplicats = new HandleDuplicats();
 
+    // data structure to store the duplicate files and their original file
     public static class DuplicateFileInfos {
 
         String originalFileName;
@@ -20,31 +21,11 @@ public class AVLTree {
         HashSet<String> DuplicateFileDirs = new HashSet<>();
     }
 
+    // map to store the duplicate files
     public HashMap<String, DuplicateFileInfos> duplicateFilesMap = new HashMap<>();
 
     // --- METHODS FOR PUBLIC ACCESS --- \\
-    public void printInOrder(Node node) {
-        if (node != null) {
-            printInOrder(node.left);
-            System.out.println("Key: " + node.key + " File: " + node.fileName + " Path: " + node.path + " Creation Date: " + node.creationDate);
-            printInOrder(node.right);
-        }
-    }
-
-    public Node find(String key) {
-        Node current = root;
-        while (current != null) {
-            if (current.key.equals(key)) {
-                System.out.println("Data found: " + current.key);
-                return current;
-            }
-            current = current.key.compareTo(key) < 0 ? current.right : current.left;
-        }
-        System.out.println("Data not found: " + key);
-        return null;
-    }
-
-    public void insert(DataForAVLTree data) {
+    public void insert(DataAVLTreeInsert data) {
         root = insert(root, data);
     }
 
@@ -68,13 +49,13 @@ public class AVLTree {
         return duplicateFilesMap;
     }
 
-    // --- PRIVATE METHODS WITH THE LOGIC OF THE AVL TREE --- \\
-    private Node insert(Node root, DataForAVLTree newDataToInsert) {
+    // --- METHODS WITH THE LOGIC OF THE AVL TREE --- \\
+    private Node insert(Node root, DataAVLTreeInsert newDataToInsert) {
         if (root == null) {
             return new Node(newDataToInsert.hashedContent, newDataToInsert.fileName, newDataToInsert.path, newDataToInsert.creationDate);
-        } else if (root.key.compareTo(newDataToInsert.hashedContent) < 0) {
-            root.left = insert(root.left, newDataToInsert);
         } else if (root.key.compareTo(newDataToInsert.hashedContent) > 0) {
+            root.left = insert(root.left, newDataToInsert);
+        } else if (root.key.compareTo(newDataToInsert.hashedContent) < 0) {
             root.right = insert(root.right, newDataToInsert);
         } else if (root.key.compareTo(newDataToInsert.hashedContent) == 0) {
             duplicateFilesMap = handleDuplicats.setDuplicateFileInMap(root, newDataToInsert, duplicateFilesMap);
@@ -130,4 +111,18 @@ public class AVLTree {
     private int height(Node n) {
         return n == null ? -1 : n.height;
     }
+
+    public Node find(String key) {
+        Node current = root;
+        while (current != null) {
+            if (current.key.equals(key)) {
+                System.out.println("Data found: " + current.key);
+                return current;
+            }
+            current = current.key.compareTo(key) < 0 ? current.right : current.left;
+        }
+        System.out.println("Data not found: " + key);
+        return null;
+    }
+
 }
