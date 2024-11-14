@@ -31,7 +31,5 @@ public class Main {
         UserInterface.printDuplicatFiles(avlTree.getDuplicateFilesMap());
         HandleDuplicats handleDuplicats = new HandleDuplicats();
         HandleDuplicats.deleteAllDuplicateFiles(avlTree.getDuplicateFilesMap());
-
-        System.out.println("Height of the AVLTree: " + avlTree.height());
     }
 }
