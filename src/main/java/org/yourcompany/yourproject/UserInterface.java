@@ -12,12 +12,13 @@ public class UserInterface {
 
     private static Scanner scanner = new Scanner(System.in);
     
-        //little starting message
+        // Displays a starting message to the user about the program's purpose.
         public static void start() {
             System.out.println("\n\nThis is a program to scan a directory of your choice for duplicate files");
         }
     
-        //method to get the directory from the user
+        // Prompts the user to enter a directory path and validates its existence.
+        // If the directory does not exist, it prompts the user again.
         public static String getUserDir() {
             System.out.println("\n\nPlease enter the directory you would like to scan: ");
             String dir = scanner.nextLine();
@@ -28,10 +29,12 @@ public class UserInterface {
             return dir;
         } else {
             System.out.println("The provided directory does not exist. Please try again.");
-            return getUserDir(); // ask for input again
+            return getUserDir();
         }
     }
 
+    // Prompts the user with a yes or no question and returns the response as a Boolean.
+    // If the input is invalid, it asks the question again.
     public static Boolean yesOrNoQuestion(String question) {
         System.out.println(question + " (y/n)");
         String val = scanner.next();
@@ -45,7 +48,8 @@ public class UserInterface {
         }
     }
 
-    // show the user the duplicate files found together with the original(oldest) file of them
+    // Displays the duplicate files found along with the original (oldest) file.
+    // If no duplicates are found, it informs the user.
     public static void printDuplicatFiles(HashMap<String, DuplicateFileInfos> duplicateFilesMap) {
         if (duplicateFilesMap.isEmpty()) {
             System.out.println("No duplicate files found");

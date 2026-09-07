@@ -17,7 +17,6 @@ public class Main {
         // Get the directory from the user in the console
         String userDir = UserInterface.getUserDir();
 
-        // Ask the user, if he wants to scann subdirectories as well
         Boolean scanSubDir = UserInterface.yesOrNoQuestion("Should subdirectorys inside of the directory you provided also be scaned?");
 
         GetData getData = new GetData();
@@ -28,6 +27,7 @@ public class Main {
             avlTree.insert(data);
         }
 
+        //display duplicate files on console and delete them 
         UserInterface.printDuplicatFiles(avlTree.getDuplicateFilesMap());
         HandleDuplicats handleDuplicats = new HandleDuplicats();
         HandleDuplicats.deleteAllDuplicateFiles(avlTree.getDuplicateFilesMap());

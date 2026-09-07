@@ -2,13 +2,13 @@ package org.yourcompany.yourproject;
 
 import java.util.Date;
 
-// Data structure to store the name of the file, the SHA-256 hash of the file content and the directory of the file to insert it to the AVLTree
+// Class representing the data structure for inserting into an AVL Tree.
 public class DataAVLTreeInsert {
-
-    String fileName;
-    String hashedContent;
-    String path;
-    Date creationDate;
+    // Attributes of the data to be stored in the AVL Tree
+    String fileName;    // Name of the file
+    String hashedContent;   // Hash of the file content
+    String path;    // Path of the file
+    Date creationDate;  // Creation date of the file
 
     public DataAVLTreeInsert(String fileName, String hashedContent, String path, Date creationDate) {
         this.fileName = fileName;
